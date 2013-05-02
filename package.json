@@ -9,6 +9,7 @@
   "dependencies": {
     "express": "3.2.0",
     "jade": "*",
-    "mongodb": "*"
+    "mongodb": "*",
+    "monk": "*"
   }
 }
