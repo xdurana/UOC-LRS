@@ -1,10 +1,30 @@
-# UOC-LRS
+# uoc-lrs
 
-UOC's Learning Record Store
+UOC Learnig Record Store
 
-## LINKS
+Install
+-----------
 
-* [UOC-LRS API Documentation](http://docs.uoclrs.apiary.io/)
+Install node.js
+
+    wget http://nodejs.org/dist/v0.10.6/node-v0.10.6.tar.gz
+    tar xf node-v0.10.6.tar.gz
+    cd node-v0.10.6/
+    ./configure
+    make -j2 && sudo make install
+
+Install MongoDB
+
+  http://docs.mongodb.org/manual/installation/
+
+Install a node.js driver for MongoDB
+
+    npm install mongodb
+    
+Clone the repository
+
+    git clone git://github.com/xdurana/uoc-lrs.git
+    cd uoc-lrs
 
 ## LICENSE
 
