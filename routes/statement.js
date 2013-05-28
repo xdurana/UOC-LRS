@@ -2,7 +2,9 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var uuid = require('node-uuid');
 
-var db = monk('localhost:27017/lrs');
+var config = require('../config');
+var db = monk(config.get('database:url'));
+
 var statements = db.get('statements');
 
 exports.get = function(req, res) {
@@ -20,6 +22,7 @@ exports.get = function(req, res) {
 exports.post = function(req, res) {
 	var item = req.body;
 	item.id = uuid.v1();
+	item.stored = new Date().toJSON();
 	statements.insert(item, function (err, docs) {
 	  if (err) {
 	  	console.log(err.message);

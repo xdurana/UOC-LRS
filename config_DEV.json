@@ -1,0 +1,8 @@
+{
+  "http": {
+    "port": "3000"
+  },
+  "database": {
+  	"url": "localhost:27017/lrs"
+  }
+}

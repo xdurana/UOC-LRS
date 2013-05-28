@@ -3,10 +3,11 @@ var http = require('http')
 var path = require('path');
 
 var statements = require('./routes/statement');
+var config = require('./config');
 
 var app = express();
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.get('http:port') || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
