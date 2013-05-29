@@ -23,6 +23,7 @@ if ('development' == app.get('env')) {
 }
 
 app.post('/xAPI/statements', statements.post);
+app.put('/xAPI/statements', statements.put);
 app.get('/xAPI/statements', statements.get);
 
 app.get('/', function(req, res){

@@ -31,3 +31,18 @@ exports.post = function(req, res) {
 	  res.json(docs);
 	})
 }
+
+exports.put = function(req, res) {
+	if (req.query.statementId) {
+		var item = req.body;
+		item.id = req.query.statementId;
+		item.stored = new Date().toJSON();
+		statements.insert(item, function (err, docs) {
+		  if (err) {
+		  	console.log(err.message);
+		  	throw err;
+		  }
+		  res.json(docs);
+		})		
+	}
+}
