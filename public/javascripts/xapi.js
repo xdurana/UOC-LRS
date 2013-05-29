@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   var tincan = new TinCan ({
     recordStores: [{
-          endpoint: "http://localhost:3000/xAPI/",
+          endpoint: "http://uoc-lrs.herokuapp.com/xapi/",
           username: "<Test User>",
           password: "<Test User's Password>"
       }

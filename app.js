@@ -22,9 +22,9 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.post('/xAPI/statements', statements.post);
-app.put('/xAPI/statements', statements.put);
-app.get('/xAPI/statements', statements.get);
+app.post('/xapi/statements', statements.post);
+app.put('/xapi/statements', statements.put);
+app.get('/xapi/statements', statements.get);
 
 app.get('/', function(req, res){
   res.render('index', {
