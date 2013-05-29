@@ -1,56 +1,73 @@
+var statement = {
+  actor: {
+    account: {      
+    }
+  },
+  verb: {
+    display: {        
+    }
+  },
+  object: {
+    definition: {
+      name: {
+      },
+      extensions: {
+      }
+    }
+  },
+  context: {
+    extensions: {        
+    }
+  }
+}
+
+function setActor() {
+  var actor = $("meta[name=actor]");    
+  statement.actor.name = actor.attr('data-lrs-actor-name');
+  statement.actor.account.name = actor.attr('data-lrs-actor-account');
+}
+
+function setContext() {
+  var context = $("meta[name=context]");
+  statement.context.extensions['uoclrs:classroom:domain:id'] = context.attr('data-lrs-context-domain-id');
+  statement.context.extensions['uoclrs:classroom:domain:code'] = context.attr('data-lrs-context-domain-code');
+  statement.context.extensions['uoclrs:classroom:domain:name'] = context.attr('data-lrs-context-domain-name');
+  statement.context.extensions['uoclrs:classroom:activity:id'] = context.attr('data-lrs-context-activity-id');
+  statement.context.extensions['uoclrs:classroom:activity:name'] = context.attr('data-lrs-context-activity-name');
+}
+
+function setVerb() {
+  statement.verb.id = "http://adlnet.gov/expapi/verbs/experienced";
+  statement.verb.display.ca = "ha experimentat";
+}
+
+function setObject(object) {
+  statement.object.id = object.attr('data-lrs-object-id');
+  statement.object.definition.type = object.attr('data-lrs-object-type');
+  statement.object.definition.name.ca = object.attr('data-lrs-object-name');
+  statement.object.definition.extensions['uoclrs:classroom:domain:id'] = object.attr('data-lrs-object-params-domainId');
+}
+
 $(document).ready(function() {
+
+  setActor();
+  setContext();
+  setVerb();
 
   var tincan = new TinCan ({
     recordStores: [{
-          endpoint: "http://uoc-lrs.herokuapp.com/xapi/",
+          //endpoint: "http://uoc-lrs.heroku.com/xapi/",
+          endpoint: "http://localhost:3000/xapi/",
           username: "<Test User>",
           password: "<Test User's Password>"
       }
     ]
-  });
-
-  var sample = {
-    actor: {
-      name: "Sally Glider",
-      mbox: "mailto:sally@example.com"
-    },
-    verb: {
-      id: "http://adlnet.gov/expapi/verbs/experienced",
-      display: {
-        ca: "ha experimentat"
-      }
-    },
-    object: {
-    },
-    context: {
-      instructor: {
-        name: "Irene Instructor",
-        mbox: "mailto:irene@example.com"
-      },
-      contextActivities:{
-        parent: {
-          id: "http://example.com/activities/hang-gliding-class-a"
-        },
-        grouping: {
-          id: "http://example.com/activities/hang-gliding-school"
-        }
-      }
-    }
-  }
+  }); 
 
   $("a[data-lrs-object-id]").on("click", function (e) {
-
     e.preventDefault();
-
-    sample.object.id = $(this).attr('data-lrs-object-id');
-    sample.object.definition = {};
-    sample.object.definition.type = $(this).attr('data-lrs-object-type');
-    sample.object.definition.name = {};
-    sample.object.definition.name.ca = $(this).attr('data-lrs-object-name');
-    sample.object.definition.extensions = {};
-    sample.object.definition.extensions['uoclrs:classroom:domain:id'] = $(this).attr('data-lrs-object-params-domainId');
-
-    tincan.sendStatement(sample);
+    setObject($(this));
+    tincan.sendStatement(statement);
   });
 
 });
