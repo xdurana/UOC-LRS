@@ -3,7 +3,9 @@ var monk = require('monk');
 var uuid = require('node-uuid');
 
 var config = require('../config');
-var db = monk(config.get('database:url'));
+
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || config.get('database:url');
+var db = monk(mongoUri);
 
 var statements = db.get('statements');
 
