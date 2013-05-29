@@ -25,6 +25,7 @@ function setActor() {
   var actor = $("meta[name=actor]");    
   statement.actor.name = actor.attr('data-lrs-actor-name');
   statement.actor.account.name = actor.attr('data-lrs-actor-account');
+  statement.actor.account.homePage = "http://www.uoc.edu";
 }
 
 function setContext() {
@@ -56,8 +57,9 @@ $(document).ready(function() {
 
   var tincan = new TinCan ({
     recordStores: [{
-          //endpoint: "http://uoc-lrs.heroku.com/xapi/",
-          endpoint: "http://localhost:3000/xapi/",
+          //endpoint: "https://cloud.scorm.com/ScormEngineInterface/TCAPI/public/",
+          //endpoint: "http://localhost:3000/xapi/",
+          endpoint: "http://uoc-lrs.herokuapp.com/xapi/",
           username: "<Test User>",
           password: "<Test User's Password>"
       }
