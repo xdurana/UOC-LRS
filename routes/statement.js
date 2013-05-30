@@ -11,7 +11,13 @@ exports.get = function(req, res) {
 	if (req.query.statementId) {
 	  statements.find({"id": req.query.statementId}, {limit: 20}, function(err,docs) {
   		res.json(docs);
-	 	})
+	 	});
+	} else if (req.query.agent) {
+		console.log(req.query.agent);
+		//statements.find({"actor": {"account": {"name": "jsmithb"}}}, {limit:20}, function (err, docs) {
+		statements.find({"actor": JSON.parse(req.query.agent)}, {limit:20}, function (err, docs) {
+			res.json(docs);
+		})
 	} else {
 		statements.find({}, {limit:20}, function (err, docs) {
 			res.json(docs);

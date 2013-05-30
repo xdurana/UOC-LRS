@@ -17,14 +17,15 @@ Install MongoDB
 
   http://docs.mongodb.org/manual/installation/
 
-Install a node.js driver for MongoDB
-
-    npm install mongodb
-    
-Clone the repository
+Install uoc-lrs
 
     git clone git://github.com/xdurana/uoc-lrs.git
     cd uoc-lrs
+    npm install
+
+Run
+
+    export NODE_ENV=local && node app.js
 
 ## LICENSE
 
