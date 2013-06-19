@@ -1,13 +1,17 @@
 {
-  "name": "uoc-lrs",
+  "name": "lrs",
   "description": "UOC's Learning Record Store",
   "version": "0.0.1",
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/xdurana/lrs.git"
+  },
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.2.0",
+    "express": "*",
     "mongodb": "*",
     "monk": "*",
     "node-uuid": "*",

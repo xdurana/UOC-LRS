@@ -1,4 +1,4 @@
-# uoc-lrs
+# lrs
 
 UOC Learnig Record Store
 
@@ -17,10 +17,10 @@ Install MongoDB
 
   http://docs.mongodb.org/manual/installation/
 
-Install uoc-lrs
+Install lrs
 
-    git clone git://github.com/xdurana/uoc-lrs.git
-    cd uoc-lrs
+    git clone git://github.com/xdurana/lrs.git
+    cd lrs
     npm install
 
 Run
