@@ -23,9 +23,10 @@ Install lrs
     cd lrs
     npm install
 
-Run
+Run with upstart
 
-    export NODE_ENV=local && node app.js
+    sudo cp lrs.conf /etc/init/lrs.conf
+    sudo start lrs
 
 ## LICENSE
 
