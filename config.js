@@ -10,6 +10,5 @@ exports.port = function() {
 }
 
 exports.db = function() {
-    console.log(process.env.NODE_CONFIG);
 	return process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || nconf.get('database:url') || 'http://localhost:28017/lrs';
 }

@@ -8,6 +8,9 @@ var db = monk(config.db());
 var statements = db.get('statements');
 
 exports.get = function(req, res) {
+
+    console.log(config.db());
+
 	if (req.query.statementId) {
 	  statements.find({"id": req.query.statementId}, {limit: 20}, function(err,docs) {
   		res.json(docs);
