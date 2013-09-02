@@ -1,5 +1,5 @@
 {
   "database": {
-    "url": "lrs:0f7ff089b25a4db40ff3f7acf529881d@hongkong.uoc.es:27017/lrs"
+    "url": "mongodb://lrs:0f7ff089b25a4db40ff3f7acf529881d@hongkong.uoc.es:27017/lrs"
   }
 }

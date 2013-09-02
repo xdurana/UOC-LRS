@@ -13,13 +13,31 @@ app.use(express.methodOverride());
 app.use(express.json());
 app.use(app.router);
 
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    next(err);
+});
 
-app.post('/xapi/statements', statements.post);
-app.put('/xapi/statements', statements.put);
-app.get('/xapi/statements', statements.get);
+app.get('/xapi/statements/test', function (req, res, callback) {
+    statements.test(function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.post('/xapi/statements', function (req, res, callback) {
+    statements.post(req.body, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.put('/xapi/statements', function (req, res, callback) {
+    statements.put(req.query.statementId, req.body, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));

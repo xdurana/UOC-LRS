@@ -1,15 +1,16 @@
 var mongo = require('mongodb');
-var monk = require('monk');
 var uuid = require('node-uuid');
 
 var config = require('../config');
 
-var db = monk(config.db());
-var statements = db.get('statements');
+var statements;
+var MongoClient = mongo.MongoClient;
+MongoClient.connect(config.db(), function(err, db) {
+    if (err) { console.log(err); }
+    statements = db.collection('statements');
+});
 
 exports.get = function(req, res) {
-
-    console.log(config.db());
 
 	if (req.query.statementId) {
 	  statements.find({"id": req.query.statementId}, {limit: 20}, function(err,docs) {
@@ -28,30 +29,27 @@ exports.get = function(req, res) {
 	}
 }
 
-exports.post = function(req, res) {
-	var item = req.body;
-	item.id = uuid.v1();
-	item.stored = new Date().toJSON();
-	statements.insert(item, function (err, docs) {
-	  if (err) {
-	  	console.log(err.message);
-	  	throw err;
-	  }
-	  res.json(docs);
-	})
+exports.test = function(callback) {
+    statements.count({ 'context.extensions.uoc-lrs:classroom:domain:id': '382785' }, function (err, docs) {
+        callback(null, { status: 'ok', statements: docs });
+    });
 }
 
-exports.put = function(req, res) {
-	if (req.query.statementId) {
-		var item = req.body;
-		item.id = req.query.statementId;
-		item.stored = new Date().toJSON();
-		statements.insert(item, function (err, docs) {
-		  if (err) {
-		  	console.log(err.message);
-		  	throw err;
-		  }
-		  res.json(docs);
-		})		
-	}
+exports.post = function(data, callback) {
+    data.id = uuid.v1();
+    data.stored = new Date().toJSON();
+    statements.insert(data, function (err, docs) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, docs);
+    });
+}
+
+exports.put = function(statementId, data, callback) {
+    data.id = statementId ? statementId : uuid.v1();
+    console.log(statementId);
+    data.stored = new Date().toJSON();
+    statements.insert(data, function (err, docs) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, docs);
+    });
 }
