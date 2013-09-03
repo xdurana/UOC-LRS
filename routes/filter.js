@@ -62,3 +62,12 @@ exports.byidpandtool = function(idp, resourceid, callback) {
         callback(null, docs);
     });
 }
+
+exports.generic = function(key, value, max, callback) {
+    filter = {};
+    filter[key] = value;
+    statement.collection().find(filter, { limit: max }).toArray(function(err, docs) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, docs);
+    });
+}

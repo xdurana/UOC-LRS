@@ -110,6 +110,13 @@ app.get('/xapi/statements/filter/idp/:idp/tool/:resourceid', function (req, res,
     });
 });
 
+app.get('/xapi/statements/filter/:key/:value/:max', function (req, res, callback) {
+    filter.generic(req.params.key, req.params.value, req.params.max, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
