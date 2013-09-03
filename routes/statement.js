@@ -10,28 +10,21 @@ MongoClient.connect(config.db(), function(err, db) {
     statements = db.collection('statements');
 });
 
-exports.get = function(req, res) {
-
-	if (req.query.statementId) {
-	  statements.find({"id": req.query.statementId}, {limit: 20}, function(err,docs) {
-  		res.json(docs);
-	 	});
-	} else if (req.query.agent) {
-		console.log(req.query.agent);
-		//statements.find({"actor": {"account": {"name": "jsmithb"}}}, {limit:20}, function (err, docs) {
-		statements.find({"actor": JSON.parse(req.query.agent)}, {limit:20}, function (err, docs) {
-			res.json(docs);
-		})
-	} else {
-		statements.find({}, {limit:20}, function (err, docs) {
-			res.json(docs);
-		})
-	}
+exports.collection = function() {
+    return statements;
 }
 
-exports.test = function(callback) {
-    statements.count({ 'context.extensions.uoc-lrs:classroom:domain:id': '382785' }, function (err, docs) {
-        callback(null, { status: 'ok', statements: docs });
+exports.get = function(callback) {
+    statements.find({}, {limit:20}).toArray(function(err, docs) {
+        callback(null, docs);
+    });
+}
+
+exports.delete = function(callback) {
+    statements.remove({
+        //"expire": {"$lte": Date.now()}
+    }, function(err, removed) {
+        callback(null, removed);
     });
 }
 
