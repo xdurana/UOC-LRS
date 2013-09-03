@@ -75,6 +75,41 @@ app.get('/xapi/statements/filter/activity/:eventid', function (req, res, callbac
     });
 });
 
+app.get('/xapi/statements/filter/tool/:resourceid', function (req, res, callback) {
+    filter.bytool(req.params.resourceid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/subject/:domainid', function (req, res, callback) {
+    filter.byidpandsubject(req.params.idp, req.params.domainid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/classroom/:domainid', function (req, res, callback) {
+    filter.byidpandclassroom(req.params.idp, req.params.domainid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/activity/:eventid', function (req, res, callback) {
+    filter.byidpandactivity(req.params.idp, req.params.eventid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/tool/:resourceid', function (req, res, callback) {
+    filter.byidpandtool(req.params.idp, req.params.resourceid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
