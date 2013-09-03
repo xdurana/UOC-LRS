@@ -27,7 +27,6 @@ app.delete('/xapi/statements', function (req, res, callback) {
 });
 
 app.post('/xapi/statements', function (req, res, callback) {
-    console.log(req.body);
     statements.post(req.body, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
@@ -44,7 +43,6 @@ app.put('/xapi/statements', function (req, res, callback) {
 app.get('/xapi/statements', function (req, res, callback) {
     statements.get(function (err, result) {
         if(err) { console.log(err); callback(err); return; }
-        console.log(result);
         res.json(result);
     });
 });

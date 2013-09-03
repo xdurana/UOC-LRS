@@ -39,7 +39,6 @@ exports.post = function(data, callback) {
 
 exports.put = function(statementId, data, callback) {
     data.id = statementId ? statementId : uuid.v1();
-    console.log(statementId);
     data.stored = new Date().toJSON();
     statements.insert(data, function (err, docs) {
         if(err) { console.log(err); callback(err); return; }
