@@ -8,10 +8,15 @@ var MongoClient = mongo.MongoClient;
 MongoClient.connect(config.db(), function(err, db) {
     if (err) { console.log(err); }
     statements = db.collection('statements');
+    guaita = db.collection('guaita');
 });
 
 exports.collection = function() {
     return statements;
+}
+
+exports.guaita = function() {
+    return guaita;
 }
 
 exports.get = function(callback) {
