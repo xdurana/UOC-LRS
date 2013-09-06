@@ -19,12 +19,14 @@ app.use(function(err, req, res, next) {
     next(err);
 });
 
+/*
 app.delete('/xapi/statements', function (req, res, callback) {
     statements.delete(function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
+*/
 
 app.post('/xapi/statements', function (req, res, callback) {
     statements.post(req.body, function (err, result) {
@@ -49,6 +51,13 @@ app.get('/xapi/statements', function (req, res, callback) {
 
 app.get('/xapi/statements/filter/idp/:idp', function (req, res, callback) {
     filter.byidp(req.params.idp, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/last', function (req, res, callback) {
+    filter.byidplast(req.params.idp, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
@@ -105,6 +114,34 @@ app.get('/xapi/statements/filter/idp/:idp/activity/:eventid', function (req, res
 
 app.get('/xapi/statements/filter/idp/:idp/tool/:resourceid', function (req, res, callback) {
     filter.byidpandtool(req.params.idp, req.params.resourceid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/subject/:domainid/last', function (req, res, callback) {
+    filter.byidpandsubjectlast(req.params.idp, req.params.domainid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/classroom/:domainid/last', function (req, res, callback) {
+    filter.byidpandclassroomlast(req.params.idp, req.params.domainid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/activity/:eventid/last', function (req, res, callback) {
+    filter.byidpandactivitylast(req.params.idp, req.params.eventid, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get('/xapi/statements/filter/idp/:idp/tool/:resourceid/last', function (req, res, callback) {
+    filter.byidpandtoollast(req.params.idp, req.params.resourceid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });

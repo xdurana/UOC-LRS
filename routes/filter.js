@@ -7,6 +7,13 @@ exports.byidp = function(idp, callback) {
     });
 }
 
+exports.byidplast = function(idp, callback) {
+    statement.collection().find({ 'actor.account.name': idp }, { 'sort': [['_id','desc']], 'limit': 1 }).toArray(function(err, docs) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, docs);
+    });
+}
+
 exports.bysubject = function(domainid, callback) {
     statement.collection().count({ 'context.extensions.uoc:lrs:subject:id': domainid }, function (err, docs) {
         if(err) { console.log(err); callback(err); return; }
@@ -58,6 +65,34 @@ exports.byidpandactivity = function(idp, eventid, callback) {
 
 exports.byidpandtool = function(idp, resourceid, callback) {
     statement.collection().count({ $and:[{ 'actor.account.name': idp }, { 'object.definition.extensions.uoc:lrs:tool:id': resourceid }]}, function (err, docs) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, docs);
+    });
+}
+
+exports.byidpandsubjectlast = function(idp, domainid, callback) {
+    statement.collection().find({ $and:[{ 'actor.account.name': idp }, { 'context.extensions.uoc:lrs:subject:id': domainid }]}, { 'sort': [['_id','desc']], 'limit': 1 }).toArray(function(err, docs) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, docs);
+    });
+}
+
+exports.byidpandclassroomlast = function(idp, domainid, callback) {
+    statement.collection().find({ $and:[{ 'actor.account.name': idp }, { 'context.extensions.uoc:lrs:classroom:id': domainid }]}, { 'sort': [['_id','desc']], 'limit': 1 }).toArray(function(err, docs) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, docs);
+    });
+}
+
+exports.byidpandactivitylast = function(idp, eventid, callback) {
+    statement.collection().find({ $and:[{ 'actor.account.name': idp }, { 'context.extensions.uoc:lrs:activity:id': eventid }]}, { 'sort': [['_id','desc']], 'limit': 1 }).toArray(function(err, docs) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, docs);
+    });
+}
+
+exports.byidpandtoollast = function(idp, resourceid, callback) {
+    statement.collection().find({ $and:[{ 'actor.account.name': idp }, { 'object.definition.extensions.uoc:lrs:tool:id': resourceid }]}, { 'sort': [['_id','desc']], 'limit': 1 }).toArray(function(err, docs) {
         if(err) { console.log(err); callback(err); return; }
         callback(null, docs);
     });
