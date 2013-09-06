@@ -63,84 +63,84 @@ app.get('/guaita/idp/:idp/last', function (req, res, callback) {
     });
 });
 
-app.get('/guaita/subject/:domainid', function (req, res, callback) {
+app.get('/guaita/subjects/:domainid', function (req, res, callback) {
     filter.bysubject(req.params.domainid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/classroom/:domainid', function (req, res, callback) {
+app.get('/guaita/classrooms/:domainid', function (req, res, callback) {
     filter.byclassroom(req.params.domainid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/activity/:eventid', function (req, res, callback) {
+app.get('/guaita/activities/:eventid', function (req, res, callback) {
     filter.byactivity(req.params.eventid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/tool/:resourceid', function (req, res, callback) {
+app.get('/guaita/tools/:resourceid', function (req, res, callback) {
     filter.bytool(req.params.resourceid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/idp/:idp/subject/:domainid', function (req, res, callback) {
+app.get('/guaita/idp/:idp/subjects/:domainid', function (req, res, callback) {
     filter.byidpandsubject(req.params.idp, req.params.domainid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/idp/:idp/classroom/:domainid', function (req, res, callback) {
+app.get('/guaita/idp/:idp/classrooms/:domainid', function (req, res, callback) {
     filter.byidpandclassroom(req.params.idp, req.params.domainid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/idp/:idp/activity/:eventid', function (req, res, callback) {
+app.get('/guaita/idp/:idp/activities/:eventid', function (req, res, callback) {
     filter.byidpandactivity(req.params.idp, req.params.eventid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/idp/:idp/tool/:resourceid', function (req, res, callback) {
+app.get('/guaita/idp/:idp/tools/:resourceid', function (req, res, callback) {
     filter.byidpandtool(req.params.idp, req.params.resourceid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/idp/:idp/subject/:domainid/last', function (req, res, callback) {
+app.get('/guaita/idp/:idp/subjects/:domainid/last', function (req, res, callback) {
     filter.byidpandsubjectlast(req.params.idp, req.params.domainid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/idp/:idp/classroom/:domainid/last', function (req, res, callback) {
+app.get('/guaita/idp/:idp/classrooms/:domainid/last', function (req, res, callback) {
     filter.byidpandclassroomlast(req.params.idp, req.params.domainid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/idp/:idp/activity/:eventid/last', function (req, res, callback) {
+app.get('/guaita/idp/:idp/activities/:eventid/last', function (req, res, callback) {
     filter.byidpandactivitylast(req.params.idp, req.params.eventid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get('/guaita/idp/:idp/tool/:resourceid/last', function (req, res, callback) {
+app.get('/guaita/idp/:idp/tools/:resourceid/last', function (req, res, callback) {
     filter.byidpandtoollast(req.params.idp, req.params.resourceid, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
