@@ -154,11 +154,9 @@ exports.byidpandtoollast = function(idp, resourceid, callback) {
     }    
 }
 
-exports.generic = function(key, value, max, callback) {
+exports.and = function(conditions, max, callback) {
     try {
-        filter = {};
-        filter[key] = value;
-        statement.collection().find(filter, { limit: max }).toArray(function(err, docs) {
+        statement.collection().find(conditions, { 'sort': [['_id','desc']], 'limit': max }).toArray(function(err, docs) {
             if(err) { console.log(err); callback(err); return; }
             callback(null, docs);
         });

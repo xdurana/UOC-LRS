@@ -145,8 +145,14 @@ app.get(config.base() + '/guaita/idp/:idp/tools/:resourceid/last', function (req
     });
 });
 
-app.get(config.base() + '/guaita/:key/:value/:max', function (req, res, callback) {
-    filter.generic(req.params.key, req.params.value, req.params.max, function (err, result) {
+app.get(config.base() + '/guaita/and/:max', function (req, res, callback) {
+    var conditions = [];
+    Object.keys(req.query).forEach(function (key) {
+        var object = {};
+        object[key] = req.query[key];
+        conditions.push(object);
+    });
+    filter.and({ $and: conditions }, req.params.max, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
