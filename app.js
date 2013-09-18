@@ -145,14 +145,27 @@ app.get(config.base() + '/guaita/idp/:idp/tools/:resourceid/last', function (req
     });
 });
 
-app.get(config.base() + '/guaita/and/:max', function (req, res, callback) {
+app.get(config.base() + '/guaita/all/:max', function (req, res, callback) {
     var conditions = [];
     Object.keys(req.query).forEach(function (key) {
         var object = {};
         object[key] = req.query[key];
         conditions.push(object);
     });
-    filter.and({ $and: conditions }, req.params.max, function (err, result) {
+    filter.all({ $and: conditions }, req.params.max, function (err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        res.json(result);
+    });
+});
+
+app.get(config.base() + '/guaita/count', function (req, res, callback) {
+    var conditions = [];
+    Object.keys(req.query).forEach(function (key) {
+        var object = {};
+        object[key] = req.query[key];
+        conditions.push(object);
+    });
+    filter.count({ $and: conditions }, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });

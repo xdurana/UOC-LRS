@@ -154,9 +154,20 @@ exports.byidpandtoollast = function(idp, resourceid, callback) {
     }    
 }
 
-exports.and = function(conditions, max, callback) {
+exports.all = function(conditions, max, callback) {
     try {
-        statement.collection().find(conditions, { 'sort': [['_id','desc']], 'limit': max }).toArray(function(err, docs) {
+        statement.collection().find(conditions, { 'sort': [['timestamp','desc']], 'limit': max }).toArray(function(err, docs) {
+            if(err) { console.log(err); callback(err); return; }
+            callback(null, docs);
+        });
+    } catch (e) {
+        callback();
+    }
+}
+
+exports.count = function(conditions, callback) {
+    try {
+        statement.collection().count(conditions, function (err, docs) {
             if(err) { console.log(err); callback(err); return; }
             callback(null, docs);
         });
