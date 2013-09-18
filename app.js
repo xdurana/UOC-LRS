@@ -26,13 +26,6 @@ app.get(config.base() + '/xapi/statements', function (req, res, callback) {
     });
 });
 
-app.get(config.base() + '/xapi/statements', function (req, res, callback) {
-    statements.get(function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
 app.post(config.base() + '/xapi/statements', function (req, res, callback) {
     statements.post(req.body, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
@@ -145,27 +138,15 @@ app.get(config.base() + '/guaita/idp/:idp/tools/:resourceid/last', function (req
     });
 });
 
-app.get(config.base() + '/guaita/all/:max', function (req, res, callback) {
-    var conditions = [];
-    Object.keys(req.query).forEach(function (key) {
-        var object = {};
-        object[key] = req.query[key];
-        conditions.push(object);
-    });
-    filter.all({ $and: conditions }, req.params.max, function (err, result) {
+app.post(config.base() + '/guaita/all/:max', function (req, res, callback) {
+    filter.all(req.body, req.params.max, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });
 });
 
-app.get(config.base() + '/guaita/count', function (req, res, callback) {
-    var conditions = [];
-    Object.keys(req.query).forEach(function (key) {
-        var object = {};
-        object[key] = req.query[key];
-        conditions.push(object);
-    });
-    filter.count({ $and: conditions }, function (err, result) {
+app.post(config.base() + '/guaita/count', function (req, res, callback) {
+    filter.count(req.body, function (err, result) {
         if(err) { console.log(err); callback(err); return; }
         res.json(result);
     });

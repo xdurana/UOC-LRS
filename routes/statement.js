@@ -22,16 +22,8 @@ exports.collection = function() {
 }
 
 exports.get = function(callback) {
-    statements.find({}, {limit:20}).toArray(function(err, docs) {
+    statements.find({}, { 'sort': [['timestamp','desc']], 'limit': '20' }).toArray(function(err, docs) {
         callback(null, docs);
-    });
-}
-
-exports.delete = function(callback) {
-    statements.remove({
-        //"expire": {"$lte": Date.now()}
-    }, function(err, removed) {
-        callback(null, removed);
     });
 }
 
@@ -39,7 +31,7 @@ exports.post = function(data, callback) {
     data.id = uuid.v1();
     data.stored = new Date().toJSON();
     statements.insert(data, function (err, docs) {
-        if(err) { console.log(err); callback(err); return; }
+        if(err) { console.log(err); callback(); return; }
         callback(null, docs);
     });
 }
@@ -48,7 +40,7 @@ exports.put = function(statementId, data, callback) {
     data.id = statementId ? statementId : uuid.v1();
     data.stored = new Date().toJSON();
     statements.insert(data, function (err, docs) {
-        if(err) { console.log(err); callback(err); return; }
+        if(err) { console.log(err); callback(); return; }
         callback(null, docs);
     });
 }
