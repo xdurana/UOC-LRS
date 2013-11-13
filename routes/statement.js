@@ -22,7 +22,7 @@ exports.collection = function() {
 }
 
 exports.get = function(callback) {
-    statements.find({}, { 'sort': [['timestamp','desc']], 'limit': '20' }).toArray(function(err, docs) {
+    statements.find({}, { 'sort': [['stored','desc']], 'limit': '20' }).toArray(function(err, docs) {
         callback(null, docs);
     });
 }

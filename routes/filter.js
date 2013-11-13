@@ -100,7 +100,7 @@ exports.byidpandtoollast = function(idp, resourceid, callback) {
 
 var all = function(conditions, max, callback) {
     try {
-        statement.collection().find(conditions, { 'sort': [['timestamp','desc']], 'limit': max }).toArray(function(err, docs) {
+        statement.collection().find(conditions, { 'sort': [['stored','desc']], 'limit': max }).toArray(function(err, docs) {
             if(err) { console.log(err); callback(); return; }
             callback(null, docs);
         });
