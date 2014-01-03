@@ -1,33 +1,3 @@
-# lrs
-
-UOC Learnig Record Store
-
-Install
------------
-
-Install node.js
-
-    wget http://nodejs.org/dist/v0.10.6/node-v0.10.6.tar.gz
-    tar xf node-v0.10.6.tar.gz
-    cd node-v0.10.6/
-    ./configure
-    make -j2 && sudo make install
-
-Install MongoDB
-
-  http://docs.mongodb.org/manual/installation/
-
-Install lrs
-
-    git clone git://github.com/xdurana/lrs.git
-    cd lrs
-    npm install
-
-Run with upstart
-
-    sudo cp lrs.conf /etc/init/lrs.conf
-    sudo start lrs
-
 ## LICENSE
 
 (The MIT License)
