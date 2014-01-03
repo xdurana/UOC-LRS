@@ -1,5 +1,0 @@
-{
-  "database": {
-    "url": "mongodb://lrs:0f77bd7731c7235fdd74391e15630c4a@server-mongo.pre.uoc.es:27017/lrs"
-  }
-}
