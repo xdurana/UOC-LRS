@@ -12,7 +12,3 @@ exports.port = function() {
 exports.db = function() {
 	return process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || nconf.get('database:url') || 'http://localhost:28017/lrs';
 }
-
-exports.base = function() {
-    return '/app/lrs';
-}

@@ -1,8 +1,9 @@
 var express = require('express');
 var http = require('http')
 
-var statements = require('./routes/statement');
-var filter = require('./routes/filter');
+var db = require('./lib/dao/db');
+var guaita = require('./lib/controllers/guaita');
+var xapi = require('./lib/controllers/xapi');
 var config = require('./config');
 
 var app = express();
@@ -14,147 +15,64 @@ app.use(express.methodOverride());
 app.use(express.json());
 app.use(app.router);
 
+/**
+ * [description]
+ * @param  {[type]}   err  [description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 app.use(function(err, req, res, next) {
     console.error(err.stack);
     next(err);
 });
 
-app.get(config.base() + '/xapi/statements', function (req, res, callback) {
-    statements.get(function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
+/**
+ * [description]
+ * @param  {[type]}   err  [description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+app.use(function(err, req, res, next) {
+    res.status(500);
+    res.json({
+        status: 500,
+        url: req.url,
+        error: err 
     });
 });
 
-app.post(config.base() + '/xapi/statements', function (req, res, callback) {
-    statements.post(req.body, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
+app.get('/app/lrs/xapi/statements', xapi.get);
+app.put('/app/lrs/xapi/statements', xapi.put);
+app.post('/app/lrs/xapi/statements', xapi.post);
 
-app.put(config.base() + '/xapi/statements', function (req, res, callback) {
-    statements.put(req.query.statementId, req.body, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
+app.post('/app/lrs/guaita', guaita.byfilter);
 
-app.get(config.base() + '/guaita/idp/:idp', function (req, res, callback) {
-    filter.byidp(req.params.idp, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
+app.get('/app/lrs/guaita/idp/:idp', guaita.byidp);
+app.get('/app/lrs/guaita/idp/:idp/last', guaita.byidplast);
+app.get('/app/lrs/guaita/idp/:idp/subjects/:domainid', guaita.byidpandsubject);
+app.get('/app/lrs/guaita/idp/:idp/subjects/:domainid/last', guaita.byidpandsubjectlast);
+app.get('/app/lrs/guaita/idp/:idp/classrooms/:domainid', guaita.byidpandclassroom);
+app.get('/app/lrs/guaita/idp/:idp/classrooms/:domainid/last', guaita.byidpandclassroomlast);
+app.get('/app/lrs/guaita/idp/:idp/activities/:eventid', guaita.byidpandactivity);
+app.get('/app/lrs/guaita/idp/:idp/activities/:eventid/last', guaita.byidpandactivitylast);
+app.get('/app/lrs/guaita/idp/:idp/tools/:resourceid', guaita.byidpandtool);
+app.get('/app/lrs/guaita/idp/:idp/tools/:resourceid/last', guaita.byidpandtoollast);
 
-app.get(config.base() + '/guaita/idp/:idp/last', function (req, res, callback) {
-    filter.byidplast(req.params.idp, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
+app.get('/app/lrs/guaita/subjects/:domainid', guaita.bysubject);
+app.get('/app/lrs/guaita/classrooms/:domainid', guaita.byclassroom);
+app.get('/app/lrs/guaita/activities/:eventid', guaita.byactivity);
+app.get('/app/lrs/guaita/tools/:resourceid', guaita.bytool);
 
-app.get(config.base() + '/guaita/subjects/:domainid', function (req, res, callback) {
-    filter.bysubject(req.params.domainid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/classrooms/:domainid', function (req, res, callback) {
-    filter.byclassroom(req.params.domainid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/activities/:eventid', function (req, res, callback) {
-    filter.byactivity(req.params.eventid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/tools/:resourceid', function (req, res, callback) {
-    filter.bytool(req.params.resourceid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/idp/:idp/subjects/:domainid', function (req, res, callback) {
-    filter.byidpandsubject(req.params.idp, req.params.domainid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/idp/:idp/classrooms/:domainid', function (req, res, callback) {
-    filter.byidpandclassroom(req.params.idp, req.params.domainid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/idp/:idp/activities/:eventid', function (req, res, callback) {
-    filter.byidpandactivity(req.params.idp, req.params.eventid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/idp/:idp/tools/:resourceid', function (req, res, callback) {
-    filter.byidpandtool(req.params.idp, req.params.resourceid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/idp/:idp/subjects/:domainid/last', function (req, res, callback) {
-    filter.byidpandsubjectlast(req.params.idp, req.params.domainid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/idp/:idp/classrooms/:domainid/last', function (req, res, callback) {
-    filter.byidpandclassroomlast(req.params.idp, req.params.domainid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/idp/:idp/activities/:eventid/last', function (req, res, callback) {
-    filter.byidpandactivitylast(req.params.idp, req.params.eventid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.get(config.base() + '/guaita/idp/:idp/tools/:resourceid/last', function (req, res, callback) {
-    filter.byidpandtoollast(req.params.idp, req.params.resourceid, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.post(config.base() + '/guaita/all/:max', function (req, res, callback) {
-    filter.all(req.body, req.params.max, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
-
-app.post(config.base() + '/guaita/count', function (req, res, callback) {
-    filter.count(req.body, function (err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        res.json(result);
-    });
-});
+app.post('/app/lrs/guaita/all/:max', guaita.all);
+app.post('/app/lrs/guaita/count', guaita.count);
 
 http.createServer(app).listen(app.get('port'), function() {
-    statements.connect(function (err, callback) {
-        if(err) { console.log(err); callback(err); return; }
+    db.connect(function (err, callback) {
+        if (err) return callback(err);
         console.log('Express server listening on port ' + app.get('port'));
     });
 });
