@@ -68,6 +68,7 @@ app.get('/app/lrs/guaita/activities/:eventid', guaita.byactivity);
 app.get('/app/lrs/guaita/tools/:resourceid', guaita.bytool);
 
 app.post('/app/lrs/guaita/all/:max', guaita.all);
+app.post('/app/lrs/guaita/explain/:max', guaita.explain);
 app.post('/app/lrs/guaita/count', guaita.count);
 
 http.createServer(app).listen(app.get('port'), function() {
