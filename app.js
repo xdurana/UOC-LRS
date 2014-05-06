@@ -4,12 +4,12 @@ var http = require('http')
 var db = require('./lib/dao/db');
 var guaita = require('./lib/controllers/guaita');
 var xapi = require('./lib/controllers/xapi');
+var user = require('./lib/controllers/user');
 var config = require('./config');
 
 var app = express();
 
 app.set('port', config.port());
-app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.json());
@@ -49,27 +49,28 @@ app.get('/app/lrs/xapi/statements', xapi.get);
 app.put('/app/lrs/xapi/statements', xapi.put);
 app.post('/app/lrs/xapi/statements', xapi.post);
 
-app.post('/app/lrs/guaita', guaita.byfilter);
+app.get('/app/lrs/guaita/idp/:idp', user.authorize, guaita.byidp);
+app.get('/app/lrs/guaita/idp/:idp/last', user.authorize, guaita.byidplast);
+app.get('/app/lrs/guaita/idp/:idp/subjects/:domainid', user.authorize, guaita.byidpandsubject);
+app.get('/app/lrs/guaita/idp/:idp/subjects/:domainid/last', user.authorize, guaita.byidpandsubjectlast);
+app.get('/app/lrs/guaita/idp/:idp/classrooms/:domainid', user.authorize, guaita.byidpandclassroom);
+app.get('/app/lrs/guaita/idp/:idp/classrooms/:domainid/last', user.authorize, guaita.byidpandclassroomlast);
+app.get('/app/lrs/guaita/idp/:idp/activities/:eventid', user.authorize, guaita.byidpandactivity);
+app.get('/app/lrs/guaita/idp/:idp/activities/:eventid/last', user.authorize, guaita.byidpandactivitylast);
+app.get('/app/lrs/guaita/idp/:idp/tools/:resourceid', user.authorize, guaita.byidpandtool);
+app.get('/app/lrs/guaita/idp/:idp/tools/:resourceid/last', user.authorize, guaita.byidpandtoollast);
 
-app.get('/app/lrs/guaita/idp/:idp', guaita.byidp);
-app.get('/app/lrs/guaita/idp/:idp/last', guaita.byidplast);
-app.get('/app/lrs/guaita/idp/:idp/subjects/:domainid', guaita.byidpandsubject);
-app.get('/app/lrs/guaita/idp/:idp/subjects/:domainid/last', guaita.byidpandsubjectlast);
-app.get('/app/lrs/guaita/idp/:idp/classrooms/:domainid', guaita.byidpandclassroom);
-app.get('/app/lrs/guaita/idp/:idp/classrooms/:domainid/last', guaita.byidpandclassroomlast);
-app.get('/app/lrs/guaita/idp/:idp/activities/:eventid', guaita.byidpandactivity);
-app.get('/app/lrs/guaita/idp/:idp/activities/:eventid/last', guaita.byidpandactivitylast);
-app.get('/app/lrs/guaita/idp/:idp/tools/:resourceid', guaita.byidpandtool);
-app.get('/app/lrs/guaita/idp/:idp/tools/:resourceid/last', guaita.byidpandtoollast);
+app.get('/app/lrs/guaita/subjects/:domainid', user.authorize, guaita.bysubject);
+app.get('/app/lrs/guaita/classrooms/:domainid', user.authorize, guaita.byclassroom);
+app.get('/app/lrs/guaita/activities/:eventid', user.authorize, guaita.byactivity);
+app.get('/app/lrs/guaita/tools/:resourceid', user.authorize, guaita.bytool);
 
-app.get('/app/lrs/guaita/subjects/:domainid', guaita.bysubject);
-app.get('/app/lrs/guaita/classrooms/:domainid', guaita.byclassroom);
-app.get('/app/lrs/guaita/activities/:eventid', guaita.byactivity);
-app.get('/app/lrs/guaita/tools/:resourceid', guaita.bytool);
+app.post('/app/lrs/guaita', user.authorize, guaita.byfilter);
+app.post('/app/lrs/guaita/all/:max', user.authorize, guaita.all);
+app.post('/app/lrs/guaita/explain/:max', user.authorize, guaita.explain);
+app.post('/app/lrs/guaita/count', user.authorize, guaita.count);
 
-app.post('/app/lrs/guaita/all/:max', guaita.all);
-app.post('/app/lrs/guaita/explain/:max', guaita.explain);
-app.post('/app/lrs/guaita/count', guaita.count);
+app.get('/app/lrs/guaita/history/:idp', guaita.byidphistory);
 
 http.createServer(app).listen(app.get('port'), function() {
     db.connect(function (err, callback) {
