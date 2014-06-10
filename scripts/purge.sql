@@ -1,0 +1,1 @@
+db.statements.remove({ "context.extensions.uoc:lrs:app" : "guaita" })

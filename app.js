@@ -45,8 +45,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.get('/app/lrs/xapi/statements', xapi.get);
-app.put('/app/lrs/xapi/statements', xapi.put);
 app.post('/app/lrs/xapi/statements', xapi.post);
 
 app.get('/app/lrs/guaita/idp/:idp', user.authorize, guaita.byidp);
@@ -59,18 +57,10 @@ app.get('/app/lrs/guaita/idp/:idp/activities/:eventid', user.authorize, guaita.b
 app.get('/app/lrs/guaita/idp/:idp/activities/:eventid/last', user.authorize, guaita.byidpandactivitylast);
 app.get('/app/lrs/guaita/idp/:idp/tools/:resourceid', user.authorize, guaita.byidpandtool);
 app.get('/app/lrs/guaita/idp/:idp/tools/:resourceid/last', user.authorize, guaita.byidpandtoollast);
-
 app.get('/app/lrs/guaita/subjects/:domainid', user.authorize, guaita.bysubject);
 app.get('/app/lrs/guaita/classrooms/:domainid', user.authorize, guaita.byclassroom);
 app.get('/app/lrs/guaita/activities/:eventid', user.authorize, guaita.byactivity);
 app.get('/app/lrs/guaita/tools/:resourceid', user.authorize, guaita.bytool);
-
-app.post('/app/lrs/guaita', user.authorize, guaita.byfilter);
-app.post('/app/lrs/guaita/all/:max', user.authorize, guaita.all);
-app.post('/app/lrs/guaita/explain/:max', user.authorize, guaita.explain);
-app.post('/app/lrs/guaita/count', user.authorize, guaita.count);
-
-app.get('/app/lrs/guaita/history/:idp', guaita.byidphistory);
 
 http.createServer(app).listen(app.get('port'), function() {
     db.connect(function (err, callback) {
