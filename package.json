@@ -11,10 +11,13 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "*",
-    "mongodb": "*",
-    "monk": "*",
-    "node-uuid": "*",
-    "nconf": "*"
+    "express": "latest",
+    "mongodb": "latest",
+    "monk": "latest",
+    "node-uuid": "latest",
+    "nconf": "latest",
+    "async": "latest",
+    "request": "latest",
+    "xml2js": "latest"
   }
 }
